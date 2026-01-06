@@ -73,16 +73,39 @@
             transition: all 0.1s ease;
         }
 
-        .success-content img { width: 150px; margin-bottom: 20px; }
-        .success-title { color: #8b3a62; font-size: 20px; font-weight: bold; }
+        /* ปรับแต่งส่วนแสดงความยินดี */
+        .success-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .success-content img { 
+            width: 180px; /* ปรับขนาดรูปแมว */
+            margin-bottom: 10px; 
+        }
+        .heart-icon {
+            color: red;
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+        .success-title { 
+            color: #8b3a62; 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-bottom: 5px;
+        }
+        .success-subtitle {
+            color: #a3748d;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
         .loading-bar { 
             background-color: #000; 
             color: white; 
-            padding: 5px 15px; 
-            border-radius: 20px; 
+            padding: 8px 20px; 
+            border-radius: 25px; 
             font-size: 12px; 
             display: inline-block; 
-            margin-top: 15px; 
         }
     </style>
 </head>
@@ -103,11 +126,14 @@
         </div>
 
         <div id="successSection" class="success-content" style="display: none;">
-            <img src="https://media.tenor.com/7S8_h6S8y7QAAAAi/mochi-peach.gif" alt="Cute Cat">
-            <div style="color: red; font-size: 30px;">❤️</div>
-            <div class="success-title">เย่! อ้วนๆรักเค้าด้วย เค้าก็รักเธอน้าา 🐽</div>
-            <p style="color: #a3748d;">น่ารักแบบนี้ตลอดไปน้าาา ✨</p>
-            <div id="statusText" class="loading-bar">กำลังส่งรักหาเธอ... 💌</div>
+            <img src="https://media.tenor.com/7S8_h6S8y7QAAAAi/mochi-peach.gif" alt="Cat Kissing">
+            
+            <div class="heart-icon">❤️</div>
+            
+            <div class="success-title">เย่! เราเป็นแฟนกันแล้วนะ</div>
+            <div class="success-subtitle">พี่จะน่ารักกับหนูทุกวันเลย ✨</div>
+            
+            <div id="statusText" class="loading-bar">กำลังส่งคำตอบ... 💌</div>
         </div>
     </div>
 
@@ -120,7 +146,7 @@
         const audio = document.getElementById('bgMusic');
 
         function playAudio() {
-            audio.play().catch(e => console.log("Music play waiting for user..."));
+            audio.play().catch(e => console.log("Music waiting..."));
         }
 
         function moveButton() {
@@ -142,7 +168,7 @@
         yesBtn.addEventListener('click', () => {
             playAudio();
             askSection.style.display = 'none';
-            successSection.style.display = 'block';
+            successSection.style.display = 'flex'; // เปลี่ยนเป็น flex เพื่อจัดกลาง
 
             const serviceID = "service_xal9mmg"; 
             const templateID = "template_dx5ajv6"; 
@@ -152,8 +178,7 @@
                     statusText.innerText = "ส่งคำตอบเรียบร้อยแล้ว! 💕";
                     statusText.style.backgroundColor = "#28a745";
                 }, (err) => {
-                    console.log("FAILED...", err);
-                    statusText.innerText = "ส่งคำตอบไม่สำเร็จ แต่เค้ารักเธอนะ! 😊";
+                    statusText.innerText = "ส่งคำตอบไม่สำเร็จ แต่พี่ได้รับรักแล้ว! 😊";
                 });
         });
     </script>
