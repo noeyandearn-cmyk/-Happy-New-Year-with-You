@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เธอจะรักเค้าเค้าม้ายย</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
             emailjs.init("BiNL75Qxn1oiKQQ1o"); 
         })();
     </script>
+    
     <style>
         body { 
             margin: 0; 
@@ -21,7 +23,7 @@
             background-color: #c9e4c5; 
             font-family: 'Kanit', sans-serif; 
             overflow: hidden; 
-            touch-action: manipulation;
+            touch-action: none; 
         }
         .card { 
             background-color: #f9fff9; 
@@ -34,37 +36,43 @@
             position: relative; 
         }
         h2 { color: #444; margin-bottom: 30px; font-weight: 500; }
+        
         .btn-container { 
             display: flex; 
-            flex-direction: column; 
+            justify-content: center;
             align-items: center; 
-            gap: 15px; 
-            min-height: 120px; 
+            gap: 20px; /* เว้นระยะห่างปุ่มซ้ายขวา */
+            min-height: 100px;
+            position: relative;
         }
+
+        /* ปุ่มรัก (สีชมพูเข้ม) */
         #yesBtn { 
             background-color: #ff60a8; 
             color: white; 
             border: none; 
-            padding: 12px 50px; 
+            padding: 12px 35px; 
             border-radius: 50px; 
             font-size: 18px; 
             cursor: pointer; 
-            z-index: 10; 
             transition: transform 0.2s;
             box-shadow: 0 4px 10px rgba(255, 96, 168, 0.3);
         }
-        #yesBtn:hover { transform: scale(1.1); }
+
+        /* ปุ่มไม่รัก (สีชมพูอ่อน) */
         #noBtn { 
             background-color: #ffd1e3; 
             color: #ff60a8; 
             border: none; 
-            padding: 8px 30px; 
+            padding: 12px 35px; 
             border-radius: 50px; 
-            font-size: 16px; 
+            font-size: 18px; 
             cursor: pointer; 
-            position: absolute; 
-            transition: 0.1s; 
+            position: relative; /* เริ่มต้นเป็นตำแหน่งปกติ */
+            z-index: 999;
+            transition: all 0.1s ease;
         }
+
         .success-content img { width: 150px; margin-bottom: 20px; }
         .success-title { color: #8b3a62; font-size: 20px; font-weight: bold; }
         .loading-bar { 
@@ -91,7 +99,7 @@
                 <button id="yesBtn">รัก 💞</button>
                 <button id="noBtn">ไม่รัก 🖤</button>
             </div>
-            <p style="font-size: 11px; color: #aaa; margin-top: 20px;">รักเค้าม้ายน้าาา 😝 </p>
+            <p style="font-size: 11px; color: #aaa; margin-top: 25px;">รักเค้าม้ายน้าาา 😝 </p>
         </div>
 
         <div id="successSection" class="success-content" style="display: none;">
@@ -112,20 +120,32 @@
         const audio = document.getElementById('bgMusic');
 
         function playAudio() {
-            audio.play().catch(e => console.log("Audio play failed"));
+            audio.play().catch(e => console.log("Music play waiting..."));
         }
 
+        // ฟังก์ชันปุ่มหนี
         function moveButton() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+            // เมื่อเริ่มหนี ให้เปลี่ยนเป็นตำแหน่ง fixed ทันที
             noBtn.style.position = 'fixed';
-            noBtn.style.left = Math.max(20, x) + 'px';
-            noBtn.style.top = Math.max(20, y) + 'px';
+            
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
 
+        // ตรวจจับเมื่อเมาส์เข้าใกล้ หรือมีการสัมผัส
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
+        // เมื่อกด "รัก"
         yesBtn.addEventListener('click', () => {
             playAudio();
             askSection.style.display = 'none';
@@ -139,8 +159,7 @@
                     statusText.innerText = "ส่งคำตอบเรียบร้อยแล้ว! 💕";
                     statusText.style.backgroundColor = "#28a745";
                 }, (err) => {
-                    console.log("Email error:", err);
-                    statusText.innerText = "ส่งคำตอบไม่สำเร็จ แต่ได้รับรักแล้ว! 😊";
+                    statusText.innerText = "ส่งคำตอบไม่สำเร็จ แต่เค้ารักเธอนะ! 😊";
                 });
         });
     </script>
